@@ -2,20 +2,25 @@
 import React, { useContext } from 'react';
 
 import * as Yup from 'yup';
-import { Field, Form, Formik } from 'formik';
-import { Paper } from '@material-ui/core';
-import { TextField } from 'formik-material-ui';
-import { KeyboardDatePicker } from 'formik-material-ui-pickers';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { Paper, Typography } from '@material-ui/core';
+import { CheckboxWithLabel, TextField } from 'formik-material-ui';
 
-import { ADD_SHAREHOLDER, EDIT_SHAREHOLDER } from 'actions/types';
-import { DispatchContext } from 'contexts/register.context';
+import {
+  ADD_SHAREHOLDER,
+  EDIT_SHAREHOLDER,
+  DISPLAY_OPTIONAL_FORM,
+} from 'actions/types';
+import {
+  DispatchContext,
+  RegistrationContext,
+} from 'contexts/register.context';
 import useStyles from 'styles/FormStyles';
 
+import { REVIEW_STEP, SHAREHOLDER_STEP } from 'config/constants';
 import DebugFormik from './DebugFormik';
 import ActionButtons from './ActionButons';
-
-const DATE_FORMAT = 'dd/MM/yyyy';
-const DATE_PLACEHOLDER = 'DD/MM/YYYY';
+import RedErrorMessage from './RedErrorMessage';
 
 const ShareholderForm = ({
   shareholder,
@@ -26,12 +31,12 @@ const ShareholderForm = ({
 }) => {
   const classes = useStyles();
   const dispatch = useContext(DispatchContext);
+  const registration = useContext(RegistrationContext);
 
   const validationSchema = Yup.object({
     firstName: Yup.string().required(),
     lastName: Yup.string().required(),
     email: Yup.string().email('Invalid email address').required(),
-    birthdate: Yup.date().required(),
   });
 
   const handleSubmit = (values, { setSubmitting }) => {
@@ -43,7 +48,19 @@ const ShareholderForm = ({
       });
       setSubmitting(false);
       //
-      setActiveStep(activeStep + 1);
+
+      if (values.optional) {
+        // stay on this step
+        dispatch({
+          type: DISPLAY_OPTIONAL_FORM,
+          payload: true,
+        });
+        setActiveStep(SHAREHOLDER_STEP);
+      } else if (registration.review) {
+        setActiveStep(REVIEW_STEP);
+      } else {
+        setActiveStep(activeStep + 1);
+      }
     }, 500);
   };
 
@@ -57,6 +74,9 @@ const ShareholderForm = ({
         {({ values, errors, touched, isSubmitting, submitForm }) => (
           <React.Fragment>
             <Form>
+              <Typography variant="h5" className={classes.title}>
+                Shareholder
+              </Typography>
               <div className={classes.fields}>
                 <Field
                   className={classes.field}
@@ -83,16 +103,16 @@ const ShareholderForm = ({
                   required
                 />
 
-                <Field
-                  className={classes.field}
-                  component={KeyboardDatePicker}
-                  name="birthdate"
-                  label="Date of Birth"
-                  clearable={true}
-                  required
-                  format={DATE_FORMAT}
-                  placeholder={DATE_PLACEHOLDER}
-                />
+                <div className={classes.field}>
+                  {/* error is not automatic */}
+                  <Field
+                    component={CheckboxWithLabel}
+                    type="checkbox"
+                    name="optional"
+                    Label={{ label: 'Do you agree to tell more' }}
+                  />
+                  <ErrorMessage name="optional" component={RedErrorMessage} />
+                </div>
               </div>
 
               <ActionButtons

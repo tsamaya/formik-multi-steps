@@ -3,6 +3,8 @@ const shareholderModel = {
   lastName: '',
   email: '',
   birthdate: null,
+  optional: false,
+  optionalInfo: '',
 };
 
 export default shareholderModel;

@@ -18,7 +18,7 @@ function RegisterSuccess({ setActiveStep }) {
         Thank you for your registration.
       </Typography>
       <Typography variant="subtitle1">
-        Your registration number is #2001539. We have emailed your regitration
+        Your registration number is #1231539. We have emailed your regitration
         confirmation.
       </Typography>
       <Button

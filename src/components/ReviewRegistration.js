@@ -10,6 +10,7 @@ import {
   ListItemAvatar,
   ListItemSecondaryAction,
   ListItemText,
+  Typography,
 } from '@material-ui/core';
 import BusinessIcon from '@material-ui/icons/Business';
 import EditIcon from '@material-ui/icons/Edit';
@@ -21,9 +22,17 @@ import {
   RegistrationContext,
 } from 'contexts/register.context';
 import { REGISTER } from 'actions/types';
-// import useStyles from 'styles/ReviewRegistrationStyles';
+import useStyles from 'styles/ReviewRegistrationStyles';
 
 import ActionButtons from './ActionButons';
+
+const prepareData = (values) => {
+  return {
+    company: values.company,
+    shareholders: values.shareholders,
+    accounting: values.accounting,
+  };
+};
 
 const ReviewRegistration = ({
   activeStep,
@@ -31,7 +40,7 @@ const ReviewRegistration = ({
   isLastStep,
   handleBack,
 }) => {
-  //   const classes = useStyles();
+  const classes = useStyles();
   const dispatch = useContext(DispatchContext);
   const registration = useContext(RegistrationContext);
 
@@ -41,8 +50,9 @@ const ReviewRegistration = ({
         type: REGISTER,
         payload: values,
       });
+      const data = prepareData(values);
       // eslint-disable-next-line no-alert
-      alert(JSON.stringify(values, null, 2));
+      alert(JSON.stringify(data, null, 2));
       setSubmitting(false);
       //
       setActiveStep(activeStep + 1);
@@ -56,6 +66,9 @@ const ReviewRegistration = ({
       {({ isSubmitting, submitForm }) => (
         <React.Fragment>
           <Form>
+            <Typography variant="h5" className={classes.title}>
+              Review
+            </Typography>
             {/* COMPANY */}
             <List>
               <ListItem>
@@ -93,7 +106,9 @@ const ReviewRegistration = ({
                   </ListItemAvatar>
                   <ListItemText
                     primary={`${shareholder.firstName} ${shareholder.lastName}`}
-                    secondary={`${shareholder.birthdate} - ${shareholder.email}`}
+                    secondary={`${shareholder.email}${
+                      shareholder.birthdate ? shareholder.birthdate : ''
+                    } - ${shareholder.optional ? shareholder.optional : ''}`}
                   />
                   <ListItemSecondaryAction>
                     <IconButton

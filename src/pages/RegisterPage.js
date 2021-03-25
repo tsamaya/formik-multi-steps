@@ -10,6 +10,13 @@ import { RegistrationContext } from 'contexts/register.context';
 import ShareholderForm from 'components/ShareholderForm';
 import AccountingForm from 'components/AccountingForm';
 import ReviewRegistration from 'components/ReviewRegistration';
+import {
+  ACCOUNTING_STEP,
+  COMPANY_STEP,
+  REVIEW_STEP,
+  SHAREHOLDER_STEP,
+} from 'config/constants';
+import ShareholderOptionalForm from 'components/ShareholderOptionalForm';
 
 const steps = [
   'Company details',
@@ -20,7 +27,7 @@ const steps = [
 
 function renderStepContent(step, setActiveStep, state, isLastStep, handleBack) {
   switch (step) {
-    case 0: {
+    case COMPANY_STEP: {
       const { company } = state;
       return (
         <CompanyForm
@@ -32,9 +39,20 @@ function renderStepContent(step, setActiveStep, state, isLastStep, handleBack) {
         />
       );
     }
-    case 1: {
-      const { shareholders } = state;
+    case SHAREHOLDER_STEP: {
+      const { shareholders, displayOptionalForm } = state;
       const shareholder = shareholders[0] || shareholderModel;
+      if (displayOptionalForm) {
+        return (
+          <ShareholderOptionalForm
+            shareholder={shareholder}
+            activeStep={step}
+            isLastStep={isLastStep}
+            handleBack={handleBack}
+            setActiveStep={setActiveStep}
+          />
+        );
+      }
       return (
         <ShareholderForm
           shareholder={shareholder}
@@ -46,7 +64,7 @@ function renderStepContent(step, setActiveStep, state, isLastStep, handleBack) {
       );
     }
 
-    case 2: {
+    case ACCOUNTING_STEP: {
       const { accounting } = state;
       return (
         <AccountingForm
@@ -59,7 +77,7 @@ function renderStepContent(step, setActiveStep, state, isLastStep, handleBack) {
       );
     }
 
-    case 3:
+    case REVIEW_STEP:
       return (
         <ReviewRegistration
           activeStep={step}
@@ -89,7 +107,7 @@ const RegisterPage = () => {
   return (
     <React.Fragment>
       <Typography variant="h4" className={classes.title}>
-        Register
+        Register your Company
       </Typography>
       <Stepper activeStep={activeStep} className={classes.stepper}>
         {steps.map((label) => (

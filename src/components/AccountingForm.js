@@ -2,23 +2,17 @@
 import React, { useContext } from 'react';
 
 import * as Yup from 'yup';
+import { Typography } from '@material-ui/core';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { CheckboxWithLabel, TextField } from 'formik-material-ui';
 
-import { EDIT_ACCOUNTING } from 'actions/types';
+import { EDIT_ACCOUNTING, REVIEW } from 'actions/types';
 import { DispatchContext } from 'contexts/register.context';
 import useStyles from 'styles/FormStyles';
 
 import DebugFormik from './DebugFormik';
 import ActionButtons from './ActionButons';
-
-const ErrorM = ({ children }) => {
-  return (
-    <div>
-      <font color="red">{children}</font>
-    </div>
-  );
-};
+import RedErrorMessage from './RedErrorMessage';
 
 const AccountingForm = ({
   accounting,
@@ -46,7 +40,10 @@ const AccountingForm = ({
         payload: values,
       });
       setSubmitting(false);
-      //
+      dispatch({
+        type: REVIEW,
+        payload: true,
+      });
       setActiveStep(activeStep + 1);
     }, 500);
   };
@@ -60,6 +57,9 @@ const AccountingForm = ({
       {({ values, errors, touched, isSubmitting, submitForm }) => (
         <React.Fragment>
           <Form>
+            <Typography variant="h5" className={classes.title}>
+              Accounting
+            </Typography>
             <div className={classes.fields}>
               <div className={classes.field}>
                 {/* error is not automatic */}
@@ -69,7 +69,7 @@ const AccountingForm = ({
                   name="vat"
                   Label={{ label: 'VAT' }}
                 />
-                <ErrorMessage name="terms" component={ErrorM} />
+                <ErrorMessage name="vat" component={RedErrorMessage} />
               </div>
 
               {values.vat ? (
