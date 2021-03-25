@@ -8,6 +8,7 @@ import {
   RESET_CONTEXT,
   REVIEW,
   DISPLAY_OPTIONAL_FORM,
+  SHAREHOLDER_INDEX,
 } from 'actions/types';
 import defaultRegistration from 'models/initial.context';
 
@@ -23,6 +24,9 @@ const reducer = (state, action) => {
 
     case DISPLAY_OPTIONAL_FORM:
       return { ...state, displayOptionalForm: payload };
+
+    case SHAREHOLDER_INDEX:
+      return { ...state, index: payload };
 
     case EDIT_COMPANY:
       return { ...state, company: payload };

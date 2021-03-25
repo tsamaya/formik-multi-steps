@@ -25,7 +25,14 @@ const steps = [
   'Review your registration',
 ];
 
-function renderStepContent(step, setActiveStep, state, isLastStep, handleBack) {
+function renderStepContent(
+  step,
+  setActiveStep,
+  state,
+  isLastStep,
+  handleBack,
+  index
+) {
   switch (step) {
     case COMPANY_STEP: {
       const { company } = state;
@@ -41,7 +48,7 @@ function renderStepContent(step, setActiveStep, state, isLastStep, handleBack) {
     }
     case SHAREHOLDER_STEP: {
       const { shareholders, displayOptionalForm } = state;
-      const shareholder = shareholders[0] || shareholderModel;
+      const shareholder = shareholders[index] || shareholderModel;
       if (displayOptionalForm) {
         return (
           <ShareholderOptionalForm
@@ -126,7 +133,8 @@ const RegisterPage = () => {
               setActiveStep,
               registration,
               isLastStep,
-              handleBack
+              handleBack,
+              registration.index
             )}
           </React.Fragment>
         )}

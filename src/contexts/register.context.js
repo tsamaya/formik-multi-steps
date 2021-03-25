@@ -7,14 +7,14 @@ export const RegistrationContext = createContext();
 export const DispatchContext = createContext();
 
 export const RegistrationProvider = (props) => {
-  const [activities, dispatch] = useLocalStorageReducer(
+  const [registration, dispatch] = useLocalStorageReducer(
     'registration',
     registrationReducer,
     defaultRegistration
   );
 
   return (
-    <RegistrationContext.Provider value={activities}>
+    <RegistrationContext.Provider value={registration}>
       <DispatchContext.Provider value={dispatch}>
         {props.children}
       </DispatchContext.Provider>

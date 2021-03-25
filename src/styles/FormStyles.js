@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
-  fields: { flexGrow: 1 },
+  fields: {},
   field: {
     margin: '5px',
   },

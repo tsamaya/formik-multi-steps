@@ -17,7 +17,7 @@ import {
 } from 'contexts/register.context';
 import useStyles from 'styles/FormStyles';
 
-import { REVIEW_STEP, SHAREHOLDER_STEP } from 'config/constants';
+import { REVIEW_STEP } from 'config/constants';
 import DebugFormik from './DebugFormik';
 import ActionButtons from './ActionButons';
 import RedErrorMessage from './RedErrorMessage';
@@ -55,7 +55,7 @@ const ShareholderForm = ({
           type: DISPLAY_OPTIONAL_FORM,
           payload: true,
         });
-        setActiveStep(SHAREHOLDER_STEP);
+        // setActiveStep(SHAREHOLDER_STEP);
       } else if (registration.review) {
         setActiveStep(REVIEW_STEP);
       } else {

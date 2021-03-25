@@ -9,6 +9,7 @@ const defaultRegistration = {
   // internals
   review: false,
   displayOptionalForm: false,
+  index: 0, // shareHolder index.... bad naming
 };
 
 export default defaultRegistration;

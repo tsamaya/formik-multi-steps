@@ -21,7 +21,7 @@ import {
   DispatchContext,
   RegistrationContext,
 } from 'contexts/register.context';
-import { REGISTER } from 'actions/types';
+import { REGISTER, SHAREHOLDER_INDEX } from 'actions/types';
 import useStyles from 'styles/ReviewRegistrationStyles';
 
 import ActionButtons from './ActionButons';
@@ -108,13 +108,19 @@ const ReviewRegistration = ({
                     primary={`${shareholder.firstName} ${shareholder.lastName}`}
                     secondary={`${shareholder.email}${
                       shareholder.birthdate ? shareholder.birthdate : ''
-                    } - ${shareholder.optional ? shareholder.optional : ''}`}
+                    } - ${
+                      shareholder.optional ? shareholder.optionalInfo : ''
+                    }`}
                   />
                   <ListItemSecondaryAction>
                     <IconButton
                       edge="end"
                       aria-label="edit"
                       onClick={() => {
+                        dispatch({
+                          type: SHAREHOLDER_INDEX,
+                          payload: idx,
+                        });
                         // TODO: next => review
                         setActiveStep(1);
                       }}
