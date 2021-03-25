@@ -13,7 +13,7 @@ import defaultRegistration from 'models/initial.context';
 
 const reducer = (state, action) => {
   const { type = '', payload = {} } = action;
-  console.log('[reducer]', type, payload);
+  // console.log('[reducer]', type, payload);
   switch (type) {
     case RESET_CONTEXT:
       return defaultRegistration;
