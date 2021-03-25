@@ -4,6 +4,6 @@ import App from './App';
 
 test('renders Formik - Multi Steps', () => {
   render(<App />);
-  const textElement = screen.getByText(/Formik - Multi Steps/i);
+  const textElement = screen.getByText(/Multi-Steps/i);
   expect(textElement).toBeInTheDocument();
 });

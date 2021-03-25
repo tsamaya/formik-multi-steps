@@ -7,6 +7,8 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:testing-library/recommended',
   ],
+  // fine for now without prop-types, TODO : error
+  rules: { 'react/prop-types': 'off' },
   env: {
     browser: true,
   },
